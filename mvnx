@@ -32,22 +32,11 @@ function mvnx_init() {
 	OUTPUT=$(readlink -f pom.xml)
 
 	echo -e "Create a new Maven POM by entering some basic information.\n"
-
 	read -p "Group Id: ($DEFAULT_GROUP_ID) " GROUP_ID
-	GROUP_ID=${GROUP_ID:-$DEFAULT_GROUP_ID}
-
 	read -p "Artifact Id: ($DEFAULT_ARTIFACT_ID) " ARTIFACT_ID
-	ARTIFACT_ID=${ARTIFACT_ID:-$DEFAULT_ARTIFACT_ID}
-
 	read -p "Packaging: ($DEFAULT_PACKAGING) " PACKAGING
-	PACKAGING=${PACKAGING:-$DEFAULT_PACKAGING}
-
 	read -p "Version: ($DEFAULT_VERSION) " VERSION
-	VERSION=${VERSION:-$DEFAULT_VERSION}
-
 	read -p "Name: ($DEFAULT_NAME) " NAME
-	NAME=${NAME:-$DEFAULT_NAME}
-
 	read -p "Description: " DESCRIPTION
 
 	read -r -d '' POM <<EOF
@@ -57,12 +46,12 @@ function mvnx_init() {
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>$GROUP_ID</groupId>
-	<artifactId>$ARTIFACT_ID</artifactId>
-	<packaging>$PACKAGING</packaging>
-	<version>$VERSION</version>
+	<groupId>${GROUP_ID:-$DEFAULT_GROUP_ID}</groupId>
+	<artifactId>${ARTIFACT_ID:-$DEFAULT_ARTIFACT_ID}</artifactId>
+	<packaging>${PACKAGING:-$DEFAULT_PACKAGING}</packaging>
+	<version>${VERSION:-$DEFAULT_VERSION}</version>
 	
-	<name>$NAME</name>
+	<name>${NAME:-$DEFAULT_NAME}</name>
 	<description>$DESCRIPTION</description>
 
 </project>
