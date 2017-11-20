@@ -5,7 +5,7 @@ SETTINGS_LINK=$M2_REPO/settings.xml
 
 if [ $# -ne 1 ]
 then
-	echo "Using Maven settings: `readlink $SETTINGS_LINK`"
+	echo "Using Maven settings: $(readlink $SETTINGS_LINK)"
 	exit 0
 fi
 
