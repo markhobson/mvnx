@@ -1,14 +1,15 @@
 #!/bin/bash
 
+M2_REPO=~/.m2
+SETTINGS_LINK=$M2_REPO/settings.xml
+
 if [ $# -ne 1 ]
 then
-	echo "Usage: mvn-settings <name>"
-	exit 1
+	echo "Using Maven settings: `readlink $SETTINGS_LINK`"
+	exit 0
 fi
 
 NAME=$1
-M2_REPO=~/.m2
-SETTINGS_LINK=$M2_REPO/settings.xml
 SETTINGS_TARGET=$M2_REPO/settings.$NAME.xml
 
 if [ ! -f $SETTINGS_TARGET ]
