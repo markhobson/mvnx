@@ -9,6 +9,14 @@ then
 	exit 0
 fi
 
+if [ $1 == "--help" ]
+then
+	echo "Usage: mvn-settings <name>"
+	echo
+	echo "Switches Maven settings to ~/.m2/settings.<name>.xml"
+	exit 0
+fi
+
 NAME=$1
 SETTINGS_TARGET=$M2_REPO/settings.$NAME.xml
 
