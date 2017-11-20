@@ -1,0 +1,146 @@
+#!/bin/bash
+
+# -----------------------------------------------------------------------------
+# mvnx --help
+# -----------------------------------------------------------------------------
+
+function mvnx_help() {
+	echo "Usage: mvnx COMMAND"
+	echo -e "\nCommands:"
+	echo "  init      Create a simple POM for a new project"
+	echo "  settings  Switch between different Maven settings"
+	echo -e "\nRun 'mvnx COMMAND --help' for more information on a command."
+}
+
+# -----------------------------------------------------------------------------
+# mvnx init
+# -----------------------------------------------------------------------------
+
+function mvnx_init() {
+	if [ $# -ne 0 ]
+	then
+		echo "Usage: mvnx init"
+		echo -e "\nCreates a simple POM for a new project."
+		exit 0
+	fi
+	
+	DEFAULT_GROUP_ID=$(basename $(pwd))
+	DEFAULT_ARTIFACT_ID=$DEFAULT_GROUP_ID
+	DEFAULT_PACKAGING=jar
+	DEFAULT_VERSION=1.0.0-SNAPSHOT
+	DEFAULT_NAME=$DEFAULT_ARTIFACT_ID
+	OUTPUT=$(readlink -f pom.xml)
+
+	echo -e "Create a new Maven POM by entering some basic information.\n"
+
+	read -p "Group Id: ($DEFAULT_GROUP_ID) " GROUP_ID
+	GROUP_ID=${GROUP_ID:-$DEFAULT_GROUP_ID}
+
+	read -p "Artifact Id: ($DEFAULT_ARTIFACT_ID) " ARTIFACT_ID
+	ARTIFACT_ID=${ARTIFACT_ID:-$DEFAULT_ARTIFACT_ID}
+
+	read -p "Packaging: ($DEFAULT_PACKAGING) " PACKAGING
+	PACKAGING=${PACKAGING:-$DEFAULT_PACKAGING}
+
+	read -p "Version: ($DEFAULT_VERSION) " VERSION
+	VERSION=${VERSION:-$DEFAULT_VERSION}
+
+	read -p "Name: ($DEFAULT_NAME) " NAME
+	NAME=${NAME:-$DEFAULT_NAME}
+
+	read -p "Description: " DESCRIPTION
+
+	read -r -d '' POM <<EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>$GROUP_ID</groupId>
+	<artifactId>$ARTIFACT_ID</artifactId>
+	<packaging>$PACKAGING</packaging>
+	<version>$VERSION</version>
+	
+	<name>$NAME</name>
+	<description>$DESCRIPTION</description>
+
+</project>
+EOF
+	echo -e "\n$POM\n"
+
+	read -p "Write to $OUTPUT? (yes) " OK
+
+	if [ ${OK:-yes} != 'yes' ]
+	then
+		echo "Aborted."
+		exit 1
+	fi
+
+	echo "$POM" > $OUTPUT
+}
+
+# -----------------------------------------------------------------------------
+# mvnx settings
+# -----------------------------------------------------------------------------
+
+function mvnx_settings() {
+	M2_REPO=~/.m2
+	SETTINGS_LINK=$M2_REPO/settings.xml
+
+	if [ $# -eq 0 ]
+	then
+		echo "Using Maven settings: $(readlink $SETTINGS_LINK)"
+		exit 0
+	fi
+
+	if [ $# -ne 1 -o "$1" == "--help" ]
+	then
+		echo "Usage: mvnx settings <name>"
+		echo -e "\nSwitches Maven settings to ~/.m2/settings.<name>.xml"
+		exit 0
+	fi
+	
+	NAME=$1
+	SETTINGS_TARGET=$M2_REPO/settings.$NAME.xml
+
+	if [ ! -f $SETTINGS_TARGET ]
+	then
+		echo "Cannot find Maven settings: $SETTINGS_TARGET"
+		exit 1
+	fi
+
+	if [ -f $SETTINGS_LINK -a ! -h $SETTINGS_LINK ]
+	then
+		echo "Cannot overwrite Maven settings: $SETTINGS_LINK"
+		exit 1
+	fi
+
+	echo "Switching to Maven settings: $SETTINGS_TARGET"
+
+	if [ -f $SETTINGS_LINK ]
+	then
+		rm $SETTINGS_LINK
+	fi
+
+	ln -s $SETTINGS_TARGET $SETTINGS_LINK
+}
+
+# -----------------------------------------------------------------------------
+# mvnx
+# -----------------------------------------------------------------------------
+
+COMMAND=$1
+shift
+
+case $COMMAND in
+	"init")
+		mvnx_init $@
+		;;
+	"settings")
+		mvnx_settings $@
+		;;
+	*)
+		mvnx_help
+		;;
+esac

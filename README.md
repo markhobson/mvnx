@@ -1,39 +1,44 @@
 # Maven Extras
 
-Simple CLI scripts for working with Maven.
+Simple CLI commands for working with Maven.
 
-## mvn-init
+## Installation
 
-Script to create a simple POM for a new project.
-
-Installation:
+Install locally by running:
 
 ```bash
-curl -so ~/bin/mvn-init https://raw.githubusercontent.com/markhobson/mvnx/master/mvn-init && chmod +x ~/bin/mvn-init
+curl -so ~/bin/mvnx https://raw.githubusercontent.com/markhobson/mvnx/master/mvnx && chmod +x ~/bin/mvnx
 ```
 
-Usage:
+Commands:
+
+```
+Usage: mvnx COMMAND
+
+Commands:
+  init      Create a simple POM for a new project
+  settings  Switch between different Maven settings
+```
+
+## init
+
+Command to create a simple POM for a new project:
 
 ```bash
-mvn-init
+Usage: mvnx init
 ```
 
 This will prompt you for some basic information and create a `pom.xml`.
 
-## mvn-settings
+## settings
 
-Script to easily switch between different Maven `settings.xml` files. Add files of the form `~/.m2/settings.<name>.xml` and it will symlink between them.
-
-Installation:
-
-```bash
-curl -so ~/bin/mvn-settings https://raw.githubusercontent.com/markhobson/mvnx/master/mvn-settings && chmod +x ~/bin/mvn-settings
-```
-
-Usage:
+Command to easily switch between different Maven `settings.xml` files. Add files
+of the form `~/.m2/settings.<name>.xml` and it will symlink between them.
 
 ```bash
-mvn-settings <name>
+Usage: mvn-settings <name>
 ```
 
 This will symlink `~/.m2/settings.xml` to `~/.m2/settings.<name>.xml`.
+
+Omit the name to display the currently configured `settings.xml`.

@@ -1,3 +1,3 @@
 #!/bin/bash
 
-cp {mvn-init,mvn-settings} ~/bin
+cp mvnx ~/bin
