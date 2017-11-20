@@ -9,7 +9,7 @@ Script to easily switch between different Maven `settings.xml` files. Add files 
 Installation:
 
 ```bash
-curl -so ~/bin/mvn-settings https://raw.githubusercontent.com/markhobson/mvnx/master/mvn-settings
+curl -so ~/bin/mvn-settings https://raw.githubusercontent.com/markhobson/mvnx/master/mvn-settings && chmod +x ~/bin/mvn-settings
 ```
 
 Usage:
