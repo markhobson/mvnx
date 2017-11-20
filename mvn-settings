@@ -1,0 +1,33 @@
+#!/bin/bash
+
+if [ $# -ne 1 ]
+then
+	echo "Usage: mvn-settings <name>"
+	exit 1
+fi
+
+NAME=$1
+M2_REPO=~/.m2
+SETTINGS_LINK=$M2_REPO/settings.xml
+SETTINGS_TARGET=$M2_REPO/settings.$NAME.xml
+
+if [ ! -f $SETTINGS_TARGET ]
+then
+	echo "Cannot find Maven settings: $SETTINGS_TARGET"
+	exit 1
+fi
+
+if [ -f $SETTINGS_LINK -a ! -h $SETTINGS_LINK ]
+then
+	echo "Cannot overwrite Maven settings: $SETTINGS_LINK"
+	exit 1
+fi
+
+echo "Switching to Maven settings: $SETTINGS_TARGET"
+
+if [ -f $SETTINGS_LINK ]
+then
+	rm $SETTINGS_LINK
+fi
+
+ln -s $SETTINGS_TARGET $SETTINGS_LINK
