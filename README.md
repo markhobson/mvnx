@@ -36,7 +36,7 @@ Command to easily switch between different Maven `settings.xml` files. Add files
 of the form `~/.m2/settings.<name>.xml` and it will symlink between them.
 
 ```bash
-Usage: mvn-settings <name>
+Usage: mvnx settings <name>
 ```
 
 This will symlink `~/.m2/settings.xml` to `~/.m2/settings.<name>.xml`.
