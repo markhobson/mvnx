@@ -79,7 +79,7 @@ function mvnx_settings() {
 
 	if [ $# -eq 0 ]
 	then
-		echo "Using Maven settings: $(readlink $SETTINGS_LINK)"
+		echo "Using Maven settings: $(readlink -f $SETTINGS_LINK)"
 		exit 0
 	fi
 
