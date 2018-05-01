@@ -7,7 +7,7 @@ Simple CLI commands for working with Maven.
 Install locally by running:
 
 ```bash
-curl -so ~/bin/mvnx https://raw.githubusercontent.com/markhobson/mvnx/master/mvnx && chmod +x ~/bin/mvnx
+curl -so ~/bin/mvnx --create-dirs https://raw.githubusercontent.com/markhobson/mvnx/master/mvnx && chmod +x ~/bin/mvnx
 ```
 
 Commands:
