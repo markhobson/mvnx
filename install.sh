@@ -1,3 +1,3 @@
 #!/bin/bash
 
-cp mvnx ~/bin
+cp mvnx /usr/local/bin/mvnx
